@@ -3,7 +3,6 @@ package com.example.summerproject2024;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
     Bitmap bitmap;
     Bitmap resized;
 
-    TextView text;
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +42,9 @@ public class MainActivity extends AppCompatActivity {
         horizontalScrollView = (HorizontalScrollView) findViewById(R.id.HorizontalScrollView);
 
         bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.campus_map);
-        resized = Bitmap.createScaledBitmap(bitmap, 1440, 1080, true);
+        resized = Bitmap.createScaledBitmap(bitmap, 3000, 2000, true);
         campus_map = (ImageView) findViewById(R.id.campus_map);
         campus_map.setImageBitmap(resized);
-
-        text = (TextView) findViewById(R.id.textView);
 
         campus_map.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
@@ -58,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
                     float x = event.getRawX() + horizontalScrollView.getScrollX();
                     float y = event.getRawY() + scrollView.getScrollY();
-                    text.setText("" + x + "\n " + y );
                 }
                 return false;
             }

@@ -17,6 +17,10 @@
             android:exported="false"/>
 
         <activity
+            android:name=".Information.Info_activity"
+            android:exported="false"/>
+
+        <activity
             android:name=".Splash"
             android:exported="true">
             <intent-filter>
