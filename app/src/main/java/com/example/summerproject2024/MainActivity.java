@@ -1,61 +1,60 @@
 package com.example.summerproject2024;
 
-import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.widget.ImageButton;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.example.summerproject2024.Campus_map.Campus_map;
+import com.example.summerproject2024.Information.University_Number;
+import com.example.summerproject2024.Information.University_Town_Info;
 
 public class MainActivity extends AppCompatActivity {
 
-    ScrollView scrollView;
-    HorizontalScrollView horizontalScrollView;
+    //FragmentManager
+    private static FragmentManager fragmentManager;
+    private static FragmentTransaction transaction;
 
-    ImageView campus_map;
-    Bitmap bitmap;
-    Bitmap resized;
+    DrawerLayout drawerLayout;
 
-    @SuppressLint("ClickableViewAccessibility")
+    Campus_map campus_map;
+    University_Number university_info;
+    University_Town_Info university_town_info;
+
+    ImageButton menu_button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
-        scrollView = (ScrollView) findViewById(R.id.ScrollView);
-        horizontalScrollView = (HorizontalScrollView) findViewById(R.id.HorizontalScrollView);
+        drawerLayout = (DrawerLayout) findViewById(R.id.main);
+        menu_button = (ImageButton) findViewById(R.id.menu_button);
 
-        bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.campus_map);
-        resized = Bitmap.createScaledBitmap(bitmap, 3000, 2000, true);
-        campus_map = (ImageView) findViewById(R.id.campus_map);
-        campus_map.setImageBitmap(resized);
+        campus_map = new Campus_map();
 
-        campus_map.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
+        fragmentManager = getSupportFragmentManager();
+        transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_container_view, campus_map).commitAllowingStateLoss();
+
+        menu_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    float x = event.getRawX() + horizontalScrollView.getScrollX();
-                    float y = event.getRawY() + scrollView.getScrollY();
+            public void onClick(View v) {
+                if(v.getId() == R.id.menu_button){
+                    if(drawerLayout.isDrawerOpen(R.id.main)){
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                    }
+                    else{
+                        drawerLayout.openDrawer(GravityCompat.START);
+                    }
                 }
-                return false;
             }
         });
     }
+
 }
