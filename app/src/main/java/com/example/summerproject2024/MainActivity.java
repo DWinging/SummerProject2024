@@ -9,6 +9,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,6 +47,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //Menu
     NavigationView navigationView;
+
+    //Toolbar
+    Toolbar toolbar;
+    TextView page_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +89,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Menu
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //Toolbar
+        toolbar = findViewById(R.id.toolbar);
+        page_title = toolbar.findViewById(R.id.page_title);
     }
 
     //ItemEvent
@@ -93,24 +103,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Change fragment
         if(menuItem.getItemId() == R.id.menu_map){
             Log.v("menu", "map");
+            page_title.setText(getResources().getString(R.string.map_page));
             transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.fragment_container_view, campus_map).commitAllowingStateLoss();
             return true;
         }
         if(menuItem.getItemId() == R.id.menu_schedule){
             Log.v("menu", "schedule");
+            page_title.setText(getResources().getString(R.string.schedule_page));
             transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.fragment_container_view, schedule_fragment).commitAllowingStateLoss();
             return true;
         }
         if(menuItem.getItemId() == R.id.menu_university_number){
             Log.v("menu", "number");
+            page_title.setText(getResources().getString(R.string.num_page));
             transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.fragment_container_view, university_number).commitAllowingStateLoss();
             return true;
         }
         if(menuItem.getItemId() == R.id.menu_town_info){
             Log.v("menu", "town_info");
+            page_title.setText(getResources().getString(R.string.town_page));
             transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.fragment_container_view, university_town_info).commitAllowingStateLoss();
             return true;
@@ -145,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
             return true;
         }
-
 
         return false;
     }
