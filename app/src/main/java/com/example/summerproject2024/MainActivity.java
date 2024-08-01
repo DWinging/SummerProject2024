@@ -19,10 +19,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.summerproject2024.Calendar.Calendar_fragment;
 import com.example.summerproject2024.Campus_map.Campus_map;
 import com.example.summerproject2024.Information.University_Number;
 import com.example.summerproject2024.Information.University_Town_Info;
-import com.example.summerproject2024.schedule.Schedule_fragment;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Campus_map campus_map;
     University_Number university_number;
     University_Town_Info university_town_info;
-    Schedule_fragment schedule_fragment;
+    Calendar_fragment calendar_fragment;
 
     //Buttons
     ImageButton menu_button;
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         campus_map = new Campus_map();
         university_number = new University_Number();
         university_town_info = new University_Town_Info();
-        schedule_fragment = new Schedule_fragment();
+        calendar_fragment = new Calendar_fragment();
 
         //Change Fragment
         fragmentManager = getSupportFragmentManager();
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.v("menu", "schedule");
             page_title.setText(getResources().getString(R.string.schedule_page));
             transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.fragment_container_view, schedule_fragment).commitAllowingStateLoss();
+            transaction.replace(R.id.fragment_container_view, calendar_fragment).commitAllowingStateLoss();
             return true;
         }
         if(menuItem.getItemId() == R.id.menu_university_number){
