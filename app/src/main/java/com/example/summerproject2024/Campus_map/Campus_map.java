@@ -50,7 +50,7 @@ public class Campus_map extends Fragment {
         horizontalScrollView = (HorizontalScrollView) view.findViewById(R.id.HorizontalScrollView);
 
         bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.campus_map);
-        resized = Bitmap.createScaledBitmap(bitmap, 3000, 2000, true);
+        resized = Bitmap.createScaledBitmap(bitmap, 2800, 2000, true);
         campus_map = (ImageView) view.findViewById(R.id.campus_map);
         campus_map.setImageBitmap(resized);
 
@@ -63,11 +63,12 @@ public class Campus_map extends Fragment {
                     int y = (int) event.getY();
 
                     building_code = db.selectBuildingCode(x, y);
-                    Log.v("building_code", building_code);
+                    Log.v("building_code?", building_code);
 
                     if(!building_code.equals("None")){
                         Campus_map_dialog campus_map_dialog = new Campus_map_dialog(getContext());
                         campus_map_dialog.building_code = building_code;
+
                         campus_map_dialog.show();
                     }
                 }
