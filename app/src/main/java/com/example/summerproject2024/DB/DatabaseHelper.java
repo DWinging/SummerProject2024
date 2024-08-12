@@ -1,6 +1,5 @@
 package com.example.summerproject2024.DB;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static String dbName = "Android.db";
-    public static int version = 15;
+    public static int version = 28;
 
     public DatabaseHelper(@Nullable Context context) {
 
@@ -23,6 +22,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d("DatabaseHelper", "onCreate 호출");
+
+        //CreateTable
         db.execSQL(createTableBusinessZone());
         db.execSQL(createTableBuilding());
         db.execSQL(createTableAmenity());
@@ -30,6 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createTableCallNumbers());
         db.execSQL(createTableProfessorCallNumbers());
 
+        //InsertTable
         db.execSQL(insertBusinessZone());
         db.execSQL(insertBuilding());
         db.execSQL(insertAmenity());
@@ -73,6 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    //Select Building Code using coordinate
     public String selectBuildingCode(int x, int y) {
 
         String sql = "SELECT building_code FROM Coordinate " +
@@ -90,9 +93,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public String selectBuildingInfo(String buildeing_code){
+    //Select Building Name using buildingCode
+    public String selectBuildingInfo(String building_code){
         String sql = "SELECT building_name FROM Building " +
-                "WHERE building_code = '" + buildeing_code + "';";
+                "WHERE building_code = '" + building_code + "';";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
@@ -135,6 +139,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String sql = "SELECT * FROM Amenity WHERE category = '"+category+"';";
         return selectTable(sql);
     }
+    public ArrayList<String>[] selectProfessorAll(){
+        String sql = "SELECT affiliation, name, CallNumber, officeNumber FROM ProfessorCallNumbers;";
+        return selectTable(sql);
+    }
 
     public ArrayList<String>[] selectProfessorUsingName(String name){
         String sql = "SELECT affiliation, name, CallNumber, officeNumber FROM ProfessorCallNumbers WHERE name = '"+name+"';";
@@ -145,9 +153,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String sql = "SELECT affiliation, name, CallNumber, officeNumber FROM ProfessorCallNumbers WHERE affiliation = '"+affiliation+"';";;
         return selectTable(sql);
     }
+    public ArrayList<String>[] selectCallNumbersAll(){
+        String sql = "SELECT affiliation, sub_affiliation, name, CallNumber, office_number FROM CallNumbers;";;
+        return selectTable(sql);
+    }
+    public ArrayList<String>[] selectCallNumbersUsingName(String name){
+        String sql = "SELECT affiliation, sub_affiliation, name, CallNumber, office_number FROM CallNumbers WHERE name = '"+name+"';";;
+        return selectTable(sql);
+    }
 
-    public ArrayList<String>[] selectCallNumbers(String affiliation){
-        String sql = "SELECT affiliation, sub_affiliation, name, CallNumber, office_number FROM ProfessorCallNumbers WHERE affiliation = '"+affiliation+"';";;
+    public ArrayList<String>[] selectCallNumbersUsingAffiliation(String affiliation){
+        String sql = "SELECT affiliation, sub_affiliation, name, CallNumber, office_number FROM CallNumbers WHERE affiliation = '"+affiliation+"';";;
         return selectTable(sql);
     }
 
