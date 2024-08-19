@@ -26,6 +26,12 @@
             android:title="@string/town_page"
             android:checkable="true"
             android:checked="false"/>
+
+        <item
+            android:id="@+id/menu_mascot"
+            android:title="@string/mascot_page"
+            android:checkable="true"
+            android:checked="false"/>
     </group>
 
     <group

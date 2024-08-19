@@ -21,6 +21,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.summerproject2024.Calendar.Calendar_fragment;
 import com.example.summerproject2024.Campus_map.Campus_map;
+import com.example.summerproject2024.DB.DatabaseHelper;
+import com.example.summerproject2024.Mascot.Mascot;
 import com.example.summerproject2024.Number.University_Number;
 import com.example.summerproject2024.Information.University_Town_Info;
 import com.google.android.material.navigation.NavigationView;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     University_Number university_number;
     University_Town_Info university_town_info;
     Calendar_fragment calendar_fragment;
+    Mascot mascot_fragment;
 
     //Buttons
     ImageButton menu_button;
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         university_number = new University_Number();
         university_town_info = new University_Town_Info();
         calendar_fragment = new Calendar_fragment();
+        mascot_fragment = new Mascot();
 
         //Change Fragment
         fragmentManager = getSupportFragmentManager();
@@ -93,6 +97,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Toolbar
         toolbar = findViewById(R.id.toolbar);
         page_title = toolbar.findViewById(R.id.page_title);
+
+        DatabaseHelper db = new DatabaseHelper(this);
+
     }
 
     //ItemEvent
@@ -127,6 +134,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             page_title.setText(getResources().getString(R.string.town_page));
             transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.fragment_container_view, university_town_info).commitAllowingStateLoss();
+            return true;
+        }
+        if(menuItem.getItemId() == R.id.menu_mascot){
+            Log.v("menu", "mascot_info");
+            page_title.setText(getResources().getString(R.string.mascot_page));
+            transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.fragment_container_view, mascot_fragment).commitAllowingStateLoss();
             return true;
         }
 
