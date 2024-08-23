@@ -3,15 +3,11 @@ package com.example.summerproject2024;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
@@ -64,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //Menu Link
     HashMap<String, String> linkMap;
+    ArrayList<MenuGroup> menuGroup;
     ArrayList<MenuLinkGroup> linkGroups;
 
     //Toolbar
@@ -123,12 +120,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //Menu-item
     private void settingMenu() {
-//        View header = navigationView.getHeaderView(0);
-//        menuList = (ExpandableListView) header.findViewById(R.id.menuList);
         menuList = (ExpandableListView) findViewById(R.id.menuList);
 
         //Campus_map
-        ArrayList<MenuGroup> menuGroup = new ArrayList<>();
+        menuGroup = new ArrayList<>();
         MenuGroup item = new MenuGroup(getResources().getString(R.string.map_page));
         menuGroup.add(item);
 
@@ -168,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     page_title.setText(groupName);
                     transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.fragment_container_view, campus_map).commitAllowingStateLoss();
+                    closeMenu(-1);
                     return true;
                 }
 
@@ -176,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     page_title.setText(groupName);
                     transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.fragment_container_view, calendar_fragment).commitAllowingStateLoss();
+                    closeMenu(-1);
                     return true;
                 }
 
@@ -184,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     page_title.setText(groupName);
                     transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.fragment_container_view, university_town_info).commitAllowingStateLoss();
+                    closeMenu(-1);
                     return true;
                 }
 
@@ -205,12 +203,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     bundle.putString("number_kind", child);
                     university_number.setArguments(bundle);
                     transaction.replace(R.id.fragment_container_view, university_number).commitAllowingStateLoss();
+                    closeMenu(groupPosition);
                     return true;
                 }
 
                 if(menuGroup.get(groupPosition).groupName.equals(getResources().getString(R.string.mascot_page))){
                     page_title.setText(child);
-
                     if(mascot_fragment.isVisible()){
                         mascot_fragment.SettingPage(child);
                     }
@@ -219,12 +217,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         mascot_fragment.setArguments(bundle);
                         transaction.replace(R.id.fragment_container_view, mascot_fragment).commitAllowingStateLoss();
                     }
+                    closeMenu(groupPosition);
                     return true;
                 }
 
                 return false;
             }
         });
+    }
+
+    public void closeMenu(int index){
+        for(int i = 0; i < menuGroup.size(); i++){
+            if(!menuGroup.get(i).child.isEmpty() && i != index){
+                menuList.collapseGroup(i);
+            }
+        }
     }
 
     //menu-link
