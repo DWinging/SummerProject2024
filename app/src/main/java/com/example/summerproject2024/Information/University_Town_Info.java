@@ -26,7 +26,7 @@ public class University_Town_Info extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.university_town_fragment, container, false);
 
-        list = view.findViewById(R.id.list);  // Ensure the ID matches the one in your XML layout
+        list = view.findViewById(R.id.menuList);  // Ensure the ID matches the one in your XML layout
 
         townDB = new DatabaseHelper(getContext());
         town_Info = townDB.selectBusinessZone();
