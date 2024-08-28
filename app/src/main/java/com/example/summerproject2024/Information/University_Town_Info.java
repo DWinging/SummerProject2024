@@ -31,15 +31,22 @@ public class University_Town_Info extends Fragment {
         townDB = new DatabaseHelper(getContext());
         town_Info = townDB.selectBusinessZone();
 
-        ArrayList<String> displayList = new ArrayList<>();
+        ArrayList<Item> items = new ArrayList<>();
+
         for (int i = 0; i < town_Info.length; i++) {
             for (int j = 0; j < town_Info[i].size(); j++) {
-                String item = town_Info[i].get(j);
-                displayList.add(item);
+                String name = town_Info[i].get(j);
+                String location = town_Info[i].get(j);
+                String category = town_Info[i].get(j);
+
+
+                int imageResourceId = R.drawable.icon_food;
+
+                items.add(new Item(name, location, category, imageResourceId));
             }
 
-            // Setting up the adapter and connecting it to the ListView
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, displayList);
+
+            Town_Info_Adapter adapter = new Town_Info_Adapter(getContext(), items);
             list.setAdapter(adapter);
 
 
